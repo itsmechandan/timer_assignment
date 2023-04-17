@@ -1,0 +1,37 @@
+import time
+
+class CountdownTimer:
+    def __init__(self, duration):
+        self.duration = duration
+        self.paused = False
+        self.start_time = None
+        self.remaining_time = duration
+        
+    def start(self):
+        self.start_time = time.monotonic()
+        while self.remaining_time > 0:
+            if self.paused:
+                continue
+            self.remaining_time = self.duration - (time.monotonic() - self.start_time)
+            self.display()
+            time.sleep(1)
+        print("Time's up!")
+        
+    def pause(self):
+        self.paused = True
+        
+    def resume(self):
+        self.paused = False
+        
+    def stop(self):
+        self.remaining_time = 0
+        self.display()
+        
+    def reset(self):
+        self.remaining_time = self.duration
+        self.display()
+        
+    def display(self):
+        minutes, seconds = divmod(int(self.remaining_time), 60)
+        print(f"{minutes:02d}:{seconds:02d}")
+ 
